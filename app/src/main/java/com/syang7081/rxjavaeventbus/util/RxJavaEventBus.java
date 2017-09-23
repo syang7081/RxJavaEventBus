@@ -49,13 +49,13 @@ public class RxJavaEventBus {
     }
 
     public static <T extends BaseEvent> void register(Consumer<BaseEvent> consumer, Class<T> eventCLass,
-                                                      Scheduler observerOnScheduler) {
+                                                      Scheduler observeOnScheduler) {
         if (consumer == null || instance.consumerDisposableMap.containsKey(consumer)) return;
-        Disposable disposable = instance.publishSubject.observeOn(observerOnScheduler)
+        Disposable disposable = instance.publishSubject.observeOn(observeOnScheduler)
                 .ofType(eventCLass)
                 .subscribe(consumer);
         instance.consumerDisposableMap.put(consumer, disposable);
-        Log.d(tag, "Registered consumer: " + consumer + ", observeOn: " + observerOnScheduler);
+        Log.d(tag, "Registered consumer: " + consumer + ", observeOn: " + observeOnScheduler);
     }
 
     public static void unregister(Consumer<BaseEvent> consumer) {

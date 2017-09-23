@@ -17,7 +17,7 @@ import com.syang7081.rxjavaeventbus.util.RxJavaEventBus;
 import io.reactivex.functions.Consumer;
 
 public class MainActivity extends AppCompatActivity {
-    // Must use the generic declaration of Consumer
+    // Must use the generic declaration of the Consumer
     private Consumer myConsumer = new MyConsumer();
     private Thread testingThread;
     @Override
@@ -46,13 +46,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 for (int i = 0; i < 10; i++) {
-                    // Event with myConsumer
+                    // Event with a consumer
                     MyEvent myEvent = new MyEvent();
                     myEvent.message = "Message sequence number: " + (i + 1);
                     RxJavaEventBus.post(myEvent);
                     sleep(1000);
 
-                    // Event with no myConsumer
+                    // Event with no consumer
                     MyEvent2 myEvent2 = new MyEvent2();
                     myEvent.message = "This is event 2";
                     RxJavaEventBus.post(myEvent2);
