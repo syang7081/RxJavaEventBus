@@ -17,6 +17,7 @@ import com.syang7081.rxjavaeventbus.util.RxJavaEventBus;
 import io.reactivex.functions.Consumer;
 
 public class MainActivity extends AppCompatActivity {
+    // Must use the generic declaration of Consumer
     private Consumer listener = new MyConsumer();
     private Thread testingThread;
     @Override
@@ -39,22 +40,34 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        RxJavaEventBus.register(listener);
+        RxJavaEventBus.register(listener, MyEvent.class);
         // start testing thread
         testingThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 for (int i = 0; i < 10; i++) {
+                    // Event with listener
                     MyEvent myEvent = new MyEvent();
                     myEvent.message = "Hello World! Message sequence number: " + (i + 1);
                     RxJavaEventBus.post(myEvent);
-                    try {
-                        Thread.sleep(2000);
-                    } catch (Exception e) {}
+                    sleep(1000);
+
+                    // Event with no listener
+                    MyEvent2 myEvent2 = new MyEvent2();
+                    myEvent.message = "This is event 2";
+                    RxJavaEventBus.post(myEvent2);
+                    sleep(1000);
+
                 }
             }
         });
         testingThread.start();
+    }
+
+    private void sleep(int sleepInterval) {
+        try {
+            Thread.sleep(sleepInterval);
+        } catch (Exception e) {}
     }
 
     @Override
@@ -100,5 +113,9 @@ public class MainActivity extends AppCompatActivity {
             TextView textView = (TextView) findViewById(R.id.greeting);
             textView.setText(event.message);
         }
+    }
+
+    class MyEvent2 implements BaseEvent {
+        public String message;
     }
 }
