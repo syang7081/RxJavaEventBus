@@ -18,7 +18,7 @@ import io.reactivex.functions.Consumer;
 
 public class MainActivity extends AppCompatActivity {
     // Must use the generic declaration of Consumer
-    private Consumer listener = new MyConsumer();
+    private Consumer myConsumer = new MyConsumer();
     private Thread testingThread;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +40,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        RxJavaEventBus.register(listener, MyEvent.class);
+        RxJavaEventBus.register(myConsumer, MyEvent.class);
         // start testing thread
         testingThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 for (int i = 0; i < 10; i++) {
-                    // Event with listener
+                    // Event with myConsumer
                     MyEvent myEvent = new MyEvent();
-                    myEvent.message = "Hello World! Message sequence number: " + (i + 1);
+                    myEvent.message = "Message sequence number: " + (i + 1);
                     RxJavaEventBus.post(myEvent);
                     sleep(1000);
 
-                    // Event with no listener
+                    // Event with no myConsumer
                     MyEvent2 myEvent2 = new MyEvent2();
                     myEvent.message = "This is event 2";
                     RxJavaEventBus.post(myEvent2);
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        RxJavaEventBus.unregister(listener);
+        RxJavaEventBus.unregister(myConsumer);
     }
 
     @Override
