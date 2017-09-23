@@ -1,5 +1,5 @@
 # RxJavaEventBus
-A simple event bus based on RxJava 2.0
+A simple event bus based on RxJava 2.0 for Android
 
 ## Sample usage
 
