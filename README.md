@@ -5,7 +5,7 @@ A simple event bus based on RxJava 2.0 for Android
 
 A sample code to use the event bus is provided in the MainActivity. The basic procedures to use the event bus are as follows:
 
-(1) Declare an event to listener to
+(1) Declare an event to listen
 ```java
 class MyEvent implements BaseEvent { /* event content */}
 ```
